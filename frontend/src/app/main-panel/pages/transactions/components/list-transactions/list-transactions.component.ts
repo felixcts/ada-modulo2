@@ -1,9 +1,8 @@
 import { Component, DestroyRef, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { first } from 'rxjs';
 import { Transaction } from '../../models/transaction.model';
+import { Router } from '@angular/router';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { RouterService } from '../../../../../core/services/router.service';
-import { TransactionPagesEnum } from '../../constants/transaction-pages.enum';
 import { FormsModule } from '@angular/forms';
 import { AccountStateService } from '../../../../../core/services/account-state.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -27,7 +26,7 @@ import { ConfirmDeleteDialogComponent } from '../confirm-delete-dialog/confirm-d
 })
 export class ListTransactionsComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly routerService = inject(RouterService);
+  private readonly router = inject(Router);
   private readonly accountState = inject(AccountStateService);
   private readonly dialog = inject(MatDialog);
 
@@ -82,11 +81,11 @@ export class ListTransactionsComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.routerService.setTransactionPage(TransactionPagesEnum.CREATE);
+    this.router.navigate(['/transacoes/criar']);
   }
 
   onEdit(id: string): void {
-    this.editEmitter.emit(id);
+    this.router.navigate([`/transacoes/editar/${id}`]);
   }
 
   onDelete(id: string): void {
