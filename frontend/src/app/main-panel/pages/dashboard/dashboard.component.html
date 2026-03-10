@@ -8,9 +8,17 @@
           <div class="muted">Saldo em Conta</div>
         </div>
         <div class="big">
-          R$ {{ (account$ | async)?.balance | number:'1.2-2' }}
-        </div>   
+          @if (isBalanceVisible()) {
+            R$ {{ (account$ | async)?.balance | number:'1.2-2' }}
+          } @else {
+            R$ *****
+          }
+        </div>  
+        <button (click)="toogleBalance()" aria-label="Toggle balance visibility">
+          {{ isBalanceVisible() ? 'Esconder Saldo' : 'Mostrar Saldo' }}
+        </button>
       </div>
+       
 
       <div class="hero-card muted-card">
         <div class="hero-card-top">
@@ -75,4 +83,18 @@
       </table>
     </div>
   </section>
+
+  @defer (on interaction(loadButton)) {
+    <app-credit-card-invoice></app-credit-card-invoice>
+  }
+  @placeholder {
+    <div #loadButton class="loading-placeholder" style="color: goldenrod; cursor: pointer;" >
+      Clique para ver a fatura do cartão de crédito
+    </div>
+  }
+  @loading (minimum 2s) {
+    <div class="loading-placeholder" style="color: goldenrod;">
+      Carregando fatura do cartão de crédito...
+    </div>
+  }
 </div>
