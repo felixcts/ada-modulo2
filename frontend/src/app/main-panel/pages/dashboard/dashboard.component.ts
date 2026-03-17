@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject, OnInit, signal, effect } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { MatCardModule } from '@angular/material/card';
 import { Transaction } from '../transactions/models/transaction.model';
 import { DatePipe } from '@angular/common';
@@ -10,8 +11,10 @@ import { AccountStateService } from '../../../core/services/account-state.servic
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
-import { AsyncPipe } from '@angular/common';
 import { CreditCardInvoiceComponent } from './components/credit-card-invoice/credit-card-invoice.component';
+import { DashboardService } from './services/dashboard.service';
+import { Account } from './models/account.model';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +28,6 @@ import { CreditCardInvoiceComponent } from './components/credit-card-invoice/cre
     DecimalPipe,
     MatSortModule,
     MatIconModule,
-    AsyncPipe,
     CreditCardInvoiceComponent,
   ],
   templateUrl: './dashboard.component.html',
@@ -34,8 +36,10 @@ import { CreditCardInvoiceComponent } from './components/credit-card-invoice/cre
 export class DashboardComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
   private readonly accountState = inject(AccountStateService);
+  private readonly dashboardService = inject(DashboardService);
 
-  account$ = this.accountState.account$;
+  accountData = toSignal<Account | undefined>(this.dashboardService.getAccount(), {initialValue: undefined});
+
   transactions: Transaction[] = [];
 
   search: string = '';
