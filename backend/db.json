@@ -5,7 +5,7 @@
       "name": "Cliente Especial",
       "balance": 4838.5
     },
-    "balance": 5038.5
+    "balance": 4638.5
   },
   "transactions": [
     {
@@ -161,6 +161,20 @@
       "description": "Teste",
       "amount": 200,
       "type": "income"
+    },
+    {
+      "id": "1225",
+      "date": "2026-03-19",
+      "description": "teste",
+      "amount": 200,
+      "type": "income"
+    },
+    {
+      "id": "1773959020558",
+      "date": "2026-03-19T22:23:40.558Z",
+      "description": "Transferência para Conta Corrente 0012 - teste",
+      "amount": -200,
+      "type": "expense"
     }
   ],
   "transfers": [],
