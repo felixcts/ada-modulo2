@@ -43,7 +43,8 @@ export class ConfirmDeleteDialogComponent {
     });
   }
 
-  close(): void {
-    this.dialogRef.close(false);
+  
+  close(confirm?: boolean): void {
+    this.dialogRef.close(confirm);
   }
 }

@@ -14,7 +14,8 @@ import { NgxMaskDirective } from 'ngx-mask'
 import { TransactionTypes } from '../../constants/transaction-types.enum';
 import { Transaction } from '../../models/transaction.model';
 import { TransactionsService } from '../../services/transactions.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-create-transaction',
@@ -25,6 +26,7 @@ import { MatDialogRef } from '@angular/material/dialog';
     MatDatepickerModule,
     MatSelectModule,
     NgxMaskDirective,
+    DatePipe,
   ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './create-transaction.component.html',
@@ -33,8 +35,10 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class CreateTransactionComponent {
   private readonly transactionsService = inject(TransactionsService);
   private readonly dialogRef = inject(MatDialogRef<CreateTransactionComponent>);
+  readonly data = inject(MAT_DIALOG_DATA, { optional: true });
+  readonly id = this.data?.id;
 
-  transactionForm = new FormGroup({
+  form = new FormGroup({
     date: new FormControl(new Date().toISOString().split('T')[0], {
       validators: [Validators.required],
       nonNullable: true,
@@ -61,11 +65,11 @@ export class CreateTransactionComponent {
   errorMessage = signal<string | null>(null);
 
   onSubmit() {
-    if (this.transactionForm.valid) {
+    if (this.form.valid) {
       this.isLoading.set(true);
       this.errorMessage.set(null); // Limpa erros anteriores
 
-      const formValue = this.transactionForm.getRawValue();
+      const formValue = this.form.getRawValue();
       const payload: Omit<Transaction, 'id'> = {
         ...formValue,
         amount:
@@ -80,7 +84,7 @@ export class CreateTransactionComponent {
         .subscribe({
         next: () => {
           alert("Transação feita com sucesso!");
-          this.transactionForm.reset();
+          this.form.reset();
           this.dialogRef.close(true); // Fecha o modal e sinaliza sucesso
         },
         error: (err) => {
@@ -92,6 +96,10 @@ export class CreateTransactionComponent {
         },
       });
     }
+  }
+
+  backToList() {
+    this.dialogRef.close();
   }
 }
 
