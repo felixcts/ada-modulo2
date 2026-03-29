@@ -11,7 +11,7 @@
   </article>
 
   @if (!simulatorVisible()) {
-  <button (click)="showSimulator()" class="btn btn-danger" #botaoSimular>{{ 'LOAN.SIMULATE_BTN' | translate }}</button>
+  <button (click)="showSimulator()" class="btn-simulate" #botaoSimular>{{ 'LOAN.SIMULATE_BTN' | translate }}</button>
 }
   @defer (when simulatorVisible()) {
   <app-loan-simulator></app-loan-simulator>
