@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { LoanService } from '../../../core/services/loan.service';
 import { AccountStateService } from '../../../core/services/account-state.service';
-import { take } from 'rxjs/operators';
 import { LoanSimulatorComponent } from './components/loan-simulator/loan-simulator.component';
 import { TranslatePipe } from '@ngx-translate/core';
 
@@ -17,9 +16,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class LoanComponent {
   loanLimit = signal(180000);
-  private fb = inject(FormBuilder);
-  private loanService = inject(LoanService);
-  private accountState = inject(AccountStateService);
+  private readonly fb = inject(FormBuilder);
+  private readonly loanService = inject(LoanService);
+  private readonly accountState = inject(AccountStateService);
+  simulatorVisible = signal(false);
+
+  showSimulator(): void {
+    this.simulatorVisible.set(true);
+  }
 
   form = this.fb.group({
     amount: [null, [Validators.required, Validators.min(1)]],
