@@ -11,16 +11,20 @@ import { TransactionTypes } from '../../main-panel/pages/transactions/constants/
   providedIn: 'root',
 })
 export class AccountStateService {
-  private dashboardService = inject(DashboardService);
-  private transactionsService = inject(TransactionsService);
+  private readonly dashboardService = inject(DashboardService);
+  private readonly transactionsService = inject(TransactionsService);
 
-  private accountSubject = new BehaviorSubject<Account | null>(null);
+  private readonly accountSubject = new BehaviorSubject<Account | null>(null);
   account$ = this.accountSubject.asObservable();
 
-  private transactionsSubject = new BehaviorSubject<Transaction[]>([]);
+  private readonly transactionsSubject = new BehaviorSubject<Transaction[]>([]);
   transactions$ = this.transactionsSubject.asObservable();
 
+  private initialized = false;
+
   loadInitial(): void {
+    if (this.initialized) return; // evita recarregar se já foi chamado
+    this.initialized = true;
     this.dashboardService.getAccount().subscribe((acc) => this.accountSubject.next(acc));
     this.transactionsService.getTransactions().subscribe((tx) => this.transactionsSubject.next(tx));
   }

@@ -10,16 +10,11 @@
     <small class="muted-light">{{ 'LOAN.RATE_INFO' | translate }}</small>
   </article>
 
-  <button #botaoSimular>{{ 'LOAN.SIMULATE_BTN' | translate }}</button>
-
-  @defer (on interaction(botaoSimular)) {
-    <app-loan-simulator></app-loan-simulator>
-  } @placeholder {
-    <p>{{ 'LOAN.SIMULATE_PLACEHOLDER' | translate }}</p>
-  } @loading (minimum 1s) {
-    <p style="color: goldenrod;">{{ 'COMMON.LOADING' | translate }}</p>
-  }
-
+  @if (!simulatorVisible()) {
+  <button (click)="showSimulator()" class="btn-simulate" #botaoSimular>{{ 'LOAN.SIMULATE_BTN' | translate }}</button>
+}
+  @defer (when simulatorVisible()) {
+  <app-loan-simulator></app-loan-simulator>
   <form class="card loan-form" [formGroup]="form">
     <div>
       <label class="form-label">{{ 'LOAN.AMOUNT' | translate }}</label>
@@ -31,7 +26,7 @@
       <select formControlName="installments">
         <option [ngValue]="null" disabled>{{ 'LOAN.SELECT' | translate }}</option>
         @for (option of installmentOptions; track option) {
-          <option [ngValue]="option">{{ option }}x</option>
+        <option [ngValue]="option">{{ option }}x</option>
         }
       </select>
     </div>
@@ -50,11 +45,19 @@
   </form>
 
   @if (calculation()) {
-    <article class="card result-card">
-      <div><strong>{{ 'LOAN.MONTHLY_PAYMENT' | translate }}:</strong> {{ calculation()!.monthly | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}</div>
-      <div><strong>{{ 'LOAN.TOTAL' | translate }}:</strong> {{ calculation()!.total | currency: 'BRL' : 'symbol' : '1.2-2' : 'pt-BR' }}</div>
-    </article>
+  <article class="card result-card">
+    <div><strong>{{ 'LOAN.MONTHLY_PAYMENT' | translate }}:</strong> {{ calculation()!.monthly | currency: 'BRL' :
+      'symbol' : '1.2-2' : 'pt-BR' }}</div>
+    <div><strong>{{ 'LOAN.TOTAL' | translate }}:</strong> {{ calculation()!.total | currency: 'BRL' : 'symbol' : '1.2-2'
+      : 'pt-BR' }}</div>
+  </article>
   }
+  } @placeholder {
+  <p>{{ 'LOAN.SIMULATE_PLACEHOLDER' | translate }}</p>
+  } @loading (minimum 1s) {
+  <p style="color: goldenrod;">{{ 'COMMON.LOADING' | translate }}</p>
+  }
+
 
   <article class="info-card">
     <h4>{{ 'LOAN.INFO_TITLE' | translate }}</h4>
@@ -66,6 +69,6 @@
   </article>
 
   @if (error()) {
-    <div class="error">{{ error() }}</div>
+  <div class="error">{{ error() }}</div>
   }
 </section>

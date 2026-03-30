@@ -5,25 +5,25 @@
   </div>
 
   <ul>
-    <li>
+    <li routerLink="/dashboard" routerLinkActive="active">
       <mat-icon aria-hidden="false">dashboard</mat-icon>
-      <span routerLink="/dashboard" routerLinkActive="active" class="menu-label">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
+      <span class="menu-label">{{ 'SIDEBAR.DASHBOARD' | translate }}</span>
     </li>
-    <li>
+    <li routerLink="/transferencia" routerLinkActive="active">
       <mat-icon aria-hidden="false">credit_card</mat-icon>
-      <span routerLink="/transferencia" routerLinkActive="active" class="menu-label">{{ 'SIDEBAR.TRANSFER' | translate}}</span>
+      <span class="menu-label">{{ 'SIDEBAR.TRANSFER' | translate}}</span>
     </li>
-    <li>
+    <li routerLink="/emprestimo" routerLinkActive="active">
       <mat-icon aria-hidden="false">payments</mat-icon>
-      <span routerLink="/emprestimo" routerLinkActive="active" class="menu-label">{{ 'SIDEBAR.LOAN' | translate}}</span>
+      <span class="menu-label">{{ 'SIDEBAR.LOAN' | translate}}</span>
     </li>
-    <li>
+    <li routerLink="/transacoes" routerLinkActive="active">
       <mat-icon aria-hidden="false">receipt_long</mat-icon>
-      <span routerLink="/transacoes" routerLinkActive="active" class="menu-label">{{ 'SIDEBAR.TRANSACTIONS' | translate}}</span>
+      <span class="menu-label">{{ 'SIDEBAR.TRANSACTIONS' | translate}}</span>
     </li>
-    <li>
+    <li routerLink="/perfil" routerLinkActive="active">
       <mat-icon aria-hidden="false">person</mat-icon>
-      <span routerLink="/perfil" routerLinkActive="active" class="menu-label">{{ 'SIDEBAR.PROFILE' | translate}}</span>
+      <span class="menu-label">{{ 'SIDEBAR.PROFILE' | translate}}</span>
     </li>
   </ul>
 </aside>
